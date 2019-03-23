@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/geospatial-jeff/cognition-datasources-srtm.svg?style=svg)](https://circleci.com/gh/geospatial-jeff/cognition-datasources-srtm)
+
 ## SRTM
 
 | Parameter | Status |
