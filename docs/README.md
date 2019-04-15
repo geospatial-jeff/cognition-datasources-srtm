@@ -1,19 +1,35 @@
-[![CircleCI](https://circleci.com/gh/geospatial-jeff/cognition-datasources-srtm.svg?style=svg)](https://circleci.com/gh/geospatial-jeff/cognition-datasources-srtm)
+# External Drivers
 
-## SRTM
+1. Add driver requirements to `requirements.txt` and `requirements-dev.txt`
+2. Build docker image
 
-| Parameter | Status |
-| ----------| ------ |
-| Spatial | :heavy_check_mark: |
-| Temporal | :x: |
-| Properties | :heavy_check_mark: |
-| **kwargs | [limit] |
+```
+docker build . -t <driver-name>:latest
+```
 
-##### Properties
-| Property | Type | Example |
-|--------------------------|-------|-------------|
-| eo:gsd | float | 305.74 |
-| eo:epsg | int | 3857 |
-| eo:instrument | str | 'srtm' |
-| legacy:x | str | 'W102' |
-| legacy:y | str | 'N44' |
+3. Run test cases inside docker container
+
+```
+docker run --rm -v $PWD:/home/cognition-datasources -it <driver-name>:latest python -m unittest tests.py
+```
+
+4. Build lambda layer
+
+```
+docker run --rm -v $PWD:/home/cognition-datasources -it <driver-name<:latest driver-package.sh <driver-name>
+```
+
+5. Deploy layer to lambda
+```
+aws lambda publish-layer-version \
+    --layer-name <driver-name> \
+    --zip-file fileb://lambda-deploy.zip
+```
+
+6. Make layer public (do this after deploying a new version)
+```
+aws lambda add-layer-version-permission --layer-name <driver-name> \
+    --statement-id public --version-number 1 --principal '*' \
+    --action lambda:GetLayerVersion
+```
+

@@ -40,4 +40,3 @@ class SRTMTestCases(tests.BaseTestCases):
     def test_temporal_search(self):
         # Underlying API doesn't accept temporal
         pass
-
