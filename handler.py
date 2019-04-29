@@ -1,7 +1,7 @@
 from datasources import Manifest
 
-def DGOpenData(event, context):
+def SRTM(event, context):
     manifest = Manifest()
-    manifest['DGOpenData'].search(**event)
+    manifest['SRTM'].search(**event)
     response = manifest.execute()
     return response
